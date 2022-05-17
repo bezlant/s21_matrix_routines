@@ -9,27 +9,26 @@ TARGET=s21_matrix.a
 OBJ_DIR=./objs
 
 INC:=$(shell find -name "*.h")
-SRC:=$(shell find -name "s21_*.c")
-
-OBJS:=$(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
+SRC:=$(shell find -name "s21*.c")
+OBJS:=$(SRC:%.c=%.o)
 
 AR=ar rc
 RAN=ranlib
-RM=rm -f
-MK=mkdir -p
 
-obj: $(OBJS)
+all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(AR) $(TARGET) $(OBJS)
 	$(RAN) $(TARGET)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INC)
+$(OBJ_DIR)/%.o: $(SRC) $(INC)
 	@$(MK) $(OBJ_DIR)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
+RM=rm -rf
+
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJ_DIR)
 
 fclean: clean
 	$(RM) $(TARGET)
