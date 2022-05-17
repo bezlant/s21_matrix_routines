@@ -8,8 +8,8 @@ TARGET=s21_matrix.a
 
 OBJ_DIR=./objs
 
-INC:=$(shell find -name "*.h")
-SRC:=$(shell find -name "s21*.c")
+INC:=$(shell find ./ -name "*.h")
+SRC:=$(shell find ./ -name "s21*.c")
 OBJS:=$(SRC:%.c=%.o)
 
 AR=ar rc
