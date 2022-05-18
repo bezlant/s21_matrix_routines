@@ -1,4 +1,4 @@
-#include "s21_matrix_test.h"
+#include "test_s21_matrix.h"
 
 START_TEST(create_matrix) {
     const int rows = 10;
@@ -13,6 +13,7 @@ START_TEST(create_matrix) {
     ck_assert_int_eq(m->rows, rows);
     ck_assert_int_eq(m->cols, cols);
     ck_assert_int_eq(m->matrix_type, ZERO_MATRIX);
+    s21_remove_matrix(m);
 }
 END_TEST
 

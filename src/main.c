@@ -1,4 +1,4 @@
-#include "tests/s21_matrix_test.h"
+#include "s21_matrix_test.h"
 
 int main(void) {
     run_tests();
@@ -6,7 +6,7 @@ int main(void) {
     return 0;
 }
 
-void run_testcake(Suite *testcase) {
+void run_testcase(Suite *testcase) {
     static int counter_testcase = 1;
 
     if (counter_testcase > 1)
