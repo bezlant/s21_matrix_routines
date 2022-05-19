@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS:=-Wall -Werror -Wextra -std=c11
+CFLAGS:=-Wall -Werror -Wextra -std=c11 #$(ASAN)
 ASAN=-g -fsanitize=address
 
 TARGET=s21_matrix.a
@@ -19,7 +19,7 @@ $(OBJS): $(SRC) $(INC)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 # TESTS & COVERAGE
-GCOV_FLAGS:=$(CFLAGS) -fprofile-arcs -ftest-coverage
+GCOV_FLAGS:=$(CFLAGS) -fprofile-arcs -ftest-coverage $(ASAN)
 TEST_LIBS:=$(shell pkg-config --cflags --libs check)
 
 TARGET_TEST=test
