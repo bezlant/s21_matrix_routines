@@ -1,4 +1,4 @@
-#include "s21_matrix_test.h"
+#include "tests/test_s21_matrix.h"
 
 int main(void) {
     run_tests();

@@ -1,38 +1,73 @@
 CC=gcc
-CFLAGS:=-c -Wall -Werror -Wextra -std=c11 $(ASAN)
+CFLAGS:=-Wall -Werror -Wextra -std=c11
 ASAN=-g -fsanitize=address
-#GCOV_FLAGS=-fprofile-arcs -ftest-coverage
-#LIBS=-lcheck
 
 TARGET=s21_matrix.a
 
-OBJ_DIR=./objs
-
-INC:=$(shell find ./ -name "*.h")
-SRC:=$(shell find ./ -name "s21*.c")
+INC:=$(shell find . -name "*.h")
+SRC:=$(shell find . -name "s21*.c")
 OBJS:=$(SRC:%.c=%.o)
 
-AR=ar rc
-RAN=ranlib
-
+# s21_matrix.a
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(AR) $(TARGET) $(OBJS)
-	$(RAN) $(TARGET)
+	ar rc $(TARGET) $(OBJS)
+	ranlib $(TARGET)
 
-$(OBJ_DIR)/%.o: $(SRC) $(INC)
-	@$(MK) $(OBJ_DIR)
+$(OBJS): $(SRC) $(INC)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-RM=rm -rf
+# TESTS & COVERAGE
+GCOV_FLAGS:=$(CFLAGS) -fprofile-arcs -ftest-coverage
+TEST_LIBS:=$(shell pkg-config --cflags --libs check)
+
+TARGET_TEST=test
+TARGET_TEST_LIB=s21_matrix_test.a
+TEST_DIR=./tests
+
+TEST_INC:=$(shell find $(TEST_DIR) -name "*.h")
+TEST_SRC:=$(shell find $(TEST_DIR) -name "*.c")
+
+GCOV_OBJS:=$(SRC:%.c=%.o)
+TEST_OBJS:=$(TEST_SRC:%.c=%.o)
+
+# GENERATE TEST.EXE FOR GCOV
+$(TARGET_TEST): $(TEST_OBJS) $(TARGET_TEST_LIB)
+	$(CC) $(GCOV_FLAGS) $(CFLAGS) main.c $(TARGET_TEST_LIB) -o $@ $< $(TEST_LIBS)
+	./test
+	
+# GET ALL OBJS FROM TEST_DIR
+$(TEST_OBJS): $(TEST_SRC) $(TEST_INC)
+	$(CC) $(GCOV_FLAGS) $(CFLAGS) -o $@ -c $<
+
+# BUILD THE LIB AGAIN FOR TESTS
+$(TARGET_TEST_LIB): $(GCOV_OBJS) $(INC)
+	ar rc $(TARGET_TEST_LIB) $(GCOV_OBJS)
+	ranlib $(TARGET_TEST_LIB)
+
+# OBJS FOR LIB AGAIN
+$(GCOV_OBJS): $(SRC) $(TEST_INC)
+	$(CC) $(GCOV_FLAGS) $(CFLAGS) -o $@ -c $<
+
+gcov: $(TARGET_TEST)
+	gcov $(TEST_SRC) $(SRC)
+
+coverage.info: gcov
+	lcov --capture --directory . --output-file coverage.info
+
+report: coverage.info
+	genhtml coverage.info --output-directory coverage
+
+open:
+	open coverage/index.html
 
 clean:
-	$(RM) $(OBJ_DIR)
+	rm -rf $(TEST_DIR)/*.gcno $(TEST_DIR)/*.gcda $(TEST_DIR)/*.o *.gcno *.gcda *.o coverag* *.gcov
 
 fclean: clean
-	$(RM) $(TARGET)
+	rm -rf $(TARGET) $(TARGET_TEST_LIB) $(TARGET_TEST)
 
 re: fclean all
 
-.PHONY: all clean fclean re open
+.PHONY: all clean fclean open
