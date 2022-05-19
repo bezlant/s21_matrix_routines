@@ -6,25 +6,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+enum { OK = 0, INCORRECT_MATRIX = 1, CALC_ERROR = 2 };
 enum { FAILURE = 0, SUCCESS = 1 };
-
-typedef enum {
-    CORRECT_MATRIX = 0,
-    INCORRECT_MATRIX = 1,
-    IDENTITY_MATRIX = 2,
-    ZERO_MATRIX = 3
-
-} matrix_type_t;
 
 typedef struct matrix_struct {
     double **matrix;
     int rows;
-    int cols;
-    matrix_type_t matrix_type;
-
+    int columns;
 } matrix_t;
 
-matrix_t *s21_create_matrix(const int rows, const int columns);
+int s21_create_matrix(const int rows, const int columns, matrix_t *result);
 void s21_remove_matrix(matrix_t *const A);
 int s21_eq_matrix(matrix_t *A, matrix_t *B);
 matrix_t s21_sum_matrix(matrix_t *A, matrix_t *B);

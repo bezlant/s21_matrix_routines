@@ -1,6 +1,7 @@
 #include "tests/test_s21_matrix.h"
 
 int main(void) {
+    srand(time(0));
     run_tests();
 
     return 0;
@@ -23,10 +24,16 @@ void run_testcase(Suite *testcase) {
 }
 
 void run_tests(void) {
-    Suite *list_cases[] = {suite_s21_create_matrix(), NULL};
+    Suite *list_cases[] = {suite_s21_create_matrix(), suite_s21_eq_matrix(),
+                           NULL};
 
     for (Suite **current_testcase = list_cases; *current_testcase != NULL;
          current_testcase++) {
         run_testcase(*current_testcase);
     }
+}
+
+double get_rand(double min, double max) {
+    double val = (double)rand() / RAND_MAX;
+    return min + val * (max - min);
 }
