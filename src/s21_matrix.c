@@ -23,6 +23,8 @@ void s21_remove_matrix(matrix_t *const A) {
 }
 
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {
+    if (A->rows != B->rows || A->columns != B->columns)
+        return CALC_ERROR;
     for (int i = 0; i < A->rows; i++)
         for (int j = 0; j < A->columns; j++)
             if (fabs(A->matrix[i][j] - B->matrix[i][j]) > 1e-07)
@@ -52,6 +54,8 @@ int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
 }
 
 int s21_mult_number(matrix_t *A, double number, matrix_t *result) {
+    if (result->rows != A->rows || result->columns != A->columns)
+        return CALC_ERROR;
     for (int i = 0; i < A->rows; i++)
         for (int j = 0; j < A->columns; j++)
             result->matrix[i][j] = A->matrix[i][j] * number;
@@ -70,3 +74,15 @@ int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
     }
     return OK;
 }
+
+int s21_transpose(matrix_t *A, matrix_t *result) {
+    if (result->rows != A->columns || result->columns != A->rows)
+        return CALC_ERROR;
+
+    for (int i = 0; i < A->rows; i++)
+        for (int j = 0; j < A->columns; j++)
+            result->matrix[j][i] = A->matrix[i][j];
+    return OK;
+}
+
+int s21_calc_complements(matrix_t *A, matrix_t *result) {}
