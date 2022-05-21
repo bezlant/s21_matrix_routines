@@ -1,6 +1,8 @@
 CC=gcc
 CFLAGS:=-Wall -Werror -Wextra -std=c11 #$(ASAN)
+ifeq ($(shell uname), Mac)
 ASAN=-g -fsanitize=address
+endif
 
 TARGET=s21_matrix.a
 
