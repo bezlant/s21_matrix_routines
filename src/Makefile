@@ -1,6 +1,6 @@
 CC=gcc
-CFLAGS:=-Wall -Werror -Wextra -std=c11 #$(ASAN)
-ASAN=-g -fsanitize=address
+CFLAGS:=-Wall -Werror -Wextra -std=c11 
+ASAN=-g #-fsanitize=address
 
 TARGET=s21_matrix.a
 
@@ -16,7 +16,7 @@ $(TARGET): $(OBJS)
 	ranlib $(TARGET)
 
 $(OBJS): $(SRC) $(INC)
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $< $(ASAN)
 
 # TESTS & COVERAGE
 GCOV_FLAGS:=-fprofile-arcs -ftest-coverage $(ASAN)
@@ -61,7 +61,7 @@ open:
 	open coverage/index.html
 
 clean:
-	rm -rf $(TEST_DIR)/*.gcno $(TEST_DIR)/*.gcda $(TEST_DIR)/*.o *.gcno *.gcda *.o coverag* *.gcov
+	rm -rf $(TEST_DIR)/*.gcno $(TEST_DIR)/*.gcda $(TEST_DIR)/*.o *.gcno *.gcda *.o coverag* *.gcov test.dSYM
 
 fclean: clean
 	rm -rf $(TARGET) $(TARGET_TEST_LIB) $(TARGET_TEST)
