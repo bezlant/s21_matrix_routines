@@ -1,8 +1,6 @@
 CC=gcc
 CFLAGS:=-Wall -Werror -Wextra -std=c11 #$(ASAN)
-ifeq ($(shell uname), Mac)
 ASAN=-g -fsanitize=address
-endif
 
 TARGET=s21_matrix.a
 
@@ -21,7 +19,7 @@ $(OBJS): $(SRC) $(INC)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 # TESTS & COVERAGE
-GCOV_FLAGS:=$(CFLAGS) -fprofile-arcs -ftest-coverage $(ASAN)
+GCOV_FLAGS:=-fprofile-arcs -ftest-coverage $(ASAN)
 TEST_LIBS:=$(shell pkg-config --cflags --libs check)
 
 TARGET_TEST=test
@@ -31,10 +29,10 @@ TEST_DIR=./tests
 TEST_INC:=$(shell find $(TEST_DIR) -name "*.h")
 TEST_SRC:=$(shell find $(TEST_DIR) -name "*.c")
 
-GCOV_OBJS:=$(SRC:%.c=%.o)
 TEST_OBJS:=$(TEST_SRC:%.c=%.o)
 
 # GENERATE TEST.EXE FOR GCOV
+$(TARGET_TEST): CFLAGS+=$(GCOV_FLAGS)
 $(TARGET_TEST): $(TEST_OBJS) $(TARGET_TEST_LIB)
 	$(CC) $(GCOV_FLAGS) $(CFLAGS) main.c $(TARGET_TEST_LIB) -o $@ $< $(TEST_LIBS)
 	./test
@@ -44,13 +42,11 @@ $(TEST_OBJS): $(TEST_SRC) $(TEST_INC)
 	$(CC) $(GCOV_FLAGS) $(CFLAGS) -o $@ -c $<
 
 # BUILD THE LIB AGAIN FOR TESTS
-$(TARGET_TEST_LIB): $(GCOV_OBJS) $(INC)
-	ar rc $(TARGET_TEST_LIB) $(GCOV_OBJS)
+$(TARGET_TEST_LIB): $(OBJS) $(INC)
+	ar rc $(TARGET_TEST_LIB) $(OBJS)
 	ranlib $(TARGET_TEST_LIB)
 
 # OBJS FOR LIB AGAIN
-$(GCOV_OBJS): $(SRC) $(TEST_INC)
-	$(CC) $(GCOV_FLAGS) $(CFLAGS) -o $@ -c $<
 
 gcov: $(TARGET_TEST)
 	gcov $(TEST_SRC) $(SRC)
