@@ -4,18 +4,18 @@ ASAN=-g #-fsanitize=address
 
 TARGET=s21_matrix.a
 
-INC:=$(shell find . -name "*.h")
-SRC:=$(shell find . -name "s21*.c")
+INC:=$(shell find . -maxdepth 1 -name "*.h")
+SRC:=$(shell find . -maxdepth 1 -name "s21*.c")
 OBJS:=$(SRC:%.c=%.o)
 
 # s21_matrix.a
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	ar rc $(TARGET) $(OBJS)
+	ar -vrcs $(TARGET) $(OBJS)
 	ranlib $(TARGET)
 
-$(OBJS): $(SRC) $(INC)
+$(OBJS): %.o:%.c $(SRC) $(INC)
 	$(CC) $(CFLAGS) -o $@ -c $< $(ASAN)
 
 # TESTS & COVERAGE
@@ -34,11 +34,11 @@ TEST_OBJS:=$(TEST_SRC:%.c=%.o)
 # GENERATE TEST.EXE FOR GCOV
 $(TARGET_TEST): CFLAGS+=$(GCOV_FLAGS)
 $(TARGET_TEST): $(TEST_OBJS) $(TARGET_TEST_LIB)
-	$(CC) $(GCOV_FLAGS) $(CFLAGS) main.c $(TARGET_TEST_LIB) -o $@ $< $(TEST_LIBS)
+	$(CC) $(GCOV_FLAGS) $(CFLAGS) main.c -o $@ $^ $(TEST_LIBS)
 	./test
 	
 # GET ALL OBJS FROM TEST_DIR
-$(TEST_OBJS): $(TEST_SRC) $(TEST_INC)
+$(TEST_OBJS): $(TEST_DIR)%.o:$(TEST_DIR)%.c $(TEST_INC)
 	$(CC) $(GCOV_FLAGS) $(CFLAGS) -o $@ -c $<
 
 # BUILD THE LIB AGAIN FOR TESTS
