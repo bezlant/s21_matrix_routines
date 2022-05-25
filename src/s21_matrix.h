@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 4096
-
 enum { OK = 0, INCORRECT_MATRIX = 1, CALC_ERROR = 2, MALLOC_FAILED = 3 };
 enum { FAILURE = 0, SUCCESS = 1 };
 

@@ -13,6 +13,10 @@ Suite *suite_s21_sub_matrix(void);
 Suite *suite_s21_mult_number_matrix(void);
 Suite *suite_s21_mult_matrix(void);
 Suite *suite_s21_transpose_matrix(void);
+Suite *suite_s21_calc_complements(void);
+Suite *suite_s21_determinant(void);
+Suite *suite_s21_inverse_matrix(void);
+
 void run_tests(void);
 void run_testcase(Suite *testcase);
 

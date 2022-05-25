@@ -20,7 +20,7 @@ $(OBJS): %.o:%.c $(SRC) $(INC)
 
 # TESTS & COVERAGE
 GCOV_FLAGS:=-fprofile-arcs -ftest-coverage $(ASAN)
-TEST_LIBS:=$(shell pkg-config --cflags --libs check)
+TEST_LIBS:=$(shell pkg-config --cflags --libs check) 
 
 TARGET_TEST=test
 TARGET_TEST_LIB=s21_matrix_test.a
@@ -34,12 +34,12 @@ TEST_OBJS:=$(TEST_SRC:%.c=%.o)
 # GENERATE TEST.EXE FOR GCOV
 $(TARGET_TEST): CFLAGS+=$(GCOV_FLAGS)
 $(TARGET_TEST): $(TEST_OBJS) $(TARGET_TEST_LIB)
-	$(CC) $(GCOV_FLAGS) $(CFLAGS) main.c -o $@ $^ $(TEST_LIBS)
+	$(CC) $(CFLAGS) main.c -o $@ $^ $(TEST_LIBS) 
 	./test
 	
 # GET ALL OBJS FROM TEST_DIR
-$(TEST_OBJS): $(TEST_DIR)%.o:$(TEST_DIR)%.c $(TEST_INC)
-	$(CC) $(GCOV_FLAGS) $(CFLAGS) -o $@ -c $<
+$(TEST_OBJS): $(TEST_DIR)%.o:$(TEST_DIR)%.c $(TEST_INC) main.c
+	$(CC) -o $@ -c $<
 
 # BUILD THE LIB AGAIN FOR TESTS
 $(TARGET_TEST_LIB): $(OBJS) $(INC)
@@ -66,6 +66,6 @@ clean:
 fclean: clean
 	rm -rf $(TARGET) $(TARGET_TEST_LIB) $(TARGET_TEST)
 
-re: fclean all
+re: fclean test
 
 .PHONY: all clean fclean open
