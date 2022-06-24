@@ -18,7 +18,6 @@ START_TEST(transpose_matrix) {
     }
 
     matrix_t res = {0};
-    s21_create_matrix(cols, rows, &res);
     ck_assert_int_eq(s21_transpose(&m, &res), OK);
     ck_assert_int_eq(s21_eq_matrix(&check, &res), SUCCESS);
 

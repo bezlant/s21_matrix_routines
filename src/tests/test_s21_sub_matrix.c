@@ -18,9 +18,9 @@ START_TEST(sub_matrix) {
         }
     }
     matrix_t res = {0};
-    s21_create_matrix(rows, cols, &res);
     ck_assert_int_eq(s21_sub_matrix(&m, &mtx, &res), OK);
     ck_assert_int_eq(s21_eq_matrix(&check, &res), SUCCESS);
+
     s21_remove_matrix(&m);
     s21_remove_matrix(&mtx);
     s21_remove_matrix(&res);

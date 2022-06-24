@@ -3,7 +3,9 @@
 double s21_determinant(matrix_t *A) {
     if (A->rows != A->columns)
         return CALC_ERROR;
+
     int s21_calc_complements(matrix_t * A, matrix_t * result);
+
     if (A->rows == 0)
         return A->matrix[0][0];
 

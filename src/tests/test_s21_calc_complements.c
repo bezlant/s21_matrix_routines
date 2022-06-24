@@ -25,7 +25,6 @@ START_TEST(complements) {
     expected.matrix[2][2] = 4;
 
     matrix_t res = {0};
-    s21_create_matrix(size, size, &res);
     s21_calc_complements(&m, &res);
 
     ck_assert_int_eq(s21_eq_matrix(&expected, &res), SUCCESS);

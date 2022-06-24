@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS:=-Wall -Werror -Wextra -std=c11 -pedantic #-fanalyzer
-ASAN=-g -fsanitize=address
+ASAN=-g #-fsanitize=address
 
 INC:=$(shell find . -maxdepth 1 -name "*.h")
 SRC:=$(shell find . -maxdepth 1 -name "s21*.c")

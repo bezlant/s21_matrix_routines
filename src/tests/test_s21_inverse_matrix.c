@@ -17,7 +17,6 @@ START_TEST(inverse) {
     m.matrix[2][2] = -3;
 
     matrix_t res = {0};
-    s21_create_matrix(size, size, &res);
     s21_inverse_matrix(&m, &res);
 
     matrix_t expected = {0};

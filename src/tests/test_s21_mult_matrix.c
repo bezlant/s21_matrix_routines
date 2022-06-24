@@ -15,6 +15,7 @@ START_TEST(mult_matrix) {
     for (int i = 0; i < cols; i++)
         for (int j = 0; j < rows; j++)
             mtx.matrix[i][j] = get_rand(-10e10, 10e10);
+
     matrix_t check = {0};
     s21_create_matrix(m.rows, mtx.columns, &check);
 
@@ -27,7 +28,6 @@ START_TEST(mult_matrix) {
     }
 
     matrix_t res = {0};
-    s21_create_matrix(rows, rows, &res);
     ck_assert_int_eq(s21_mult_matrix(&m, &mtx, &res), OK);
     ck_assert_int_eq(s21_eq_matrix(&check, &res), SUCCESS);
 
