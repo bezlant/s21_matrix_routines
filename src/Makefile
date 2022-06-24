@@ -1,5 +1,7 @@
 CC=gcc
+
 CFLAGS:=#-Wall -Werror -Wextra -std=c11 -pedantic -fanalyzer
+
 ASAN=-g #-fsanitize=address
 
 TARGET=s21_matrix.a
