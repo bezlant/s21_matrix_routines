@@ -12,12 +12,19 @@ double s21_determinant(matrix_t *A) {
 
 double det(double **m, int size) {
     double res = 0;
+
     if (size == 1)
         return m[0][0];
 
     double **tmp = malloc(sizeof(double *) * size);
-    for (int i = 0; i < size; i++)
+    if (!tmp)
+        exit(MALLOC_FAILED);
+
+    for (int i = 0; i < size; i++) {
         tmp[i] = malloc(sizeof(double) * size);
+        if (!tmp[i])
+            exit(MALLOC_FAILED);
+    }
 
     int sign = 1;
     for (int i = 0; i < size; i++) {
