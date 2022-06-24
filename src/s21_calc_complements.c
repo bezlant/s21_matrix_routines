@@ -1,9 +1,11 @@
 #include "s21_matrix.h"
 
 int s21_calc_complements(matrix_t *A, matrix_t *result) {
-    if (A->rows != A->columns || result->rows != A->rows ||
-        result->columns != A->columns)
+    if (A->rows != A->columns)
         return CALC_ERROR;
+
+    if (s21_create_matrix(A->columns, A->rows, result) != OK)
+        return MALLOC_FAILED;
 
     adjoint(A, result);
     return OK;

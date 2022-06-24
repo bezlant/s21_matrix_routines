@@ -3,6 +3,7 @@
 int s21_inverse_matrix(matrix_t *A, matrix_t *result) {
     if (A->rows != A->columns)
         return CALC_ERROR;
+
     double d = s21_determinant(A);
     if (fabs(d) < 1e-6)
         return CALC_ERROR;
@@ -10,7 +11,11 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result) {
     matrix_t adj = {0};
     s21_create_matrix(A->rows, A->columns, &adj);
     adjoint_inverse(A, &adj);
+
     int size = A->rows;
+
+    if (s21_create_matrix(size, size, result) != OK)
+        return MALLOC_FAILED;
 
     for (int i = 0; i < size; i++)
         for (int j = 0; j < size; j++)
