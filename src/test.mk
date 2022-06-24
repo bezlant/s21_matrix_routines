@@ -1,6 +1,6 @@
 CC=gcc
-CFLAGS:=-Wall -Werror -Wextra -std=c11 
-ASAN=-g #-fsanitize=address
+CFLAGS:=-Wall -Werror -Wextra -std=c11 -pedantic #-fanalyzer
+ASAN=-g -fsanitize=address
 
 INC:=$(shell find . -maxdepth 1 -name "*.h")
 SRC:=$(shell find . -maxdepth 1 -name "s21*.c")
@@ -29,7 +29,7 @@ $(TARGET_TEST): $(TEST_OBJS) $(TARGET_TEST_LIB)
 	
 # GET ALL OBJS FROM TEST_DIR
 $(TEST_OBJS): $(TEST_DIR)%.o:$(TEST_DIR)%.c $(TEST_INC) main.c
-	$(CC) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 # BUILD THE LIB AGAIN FOR TESTS
 $(TARGET_TEST_LIB): $(OBJS) $(INC)
