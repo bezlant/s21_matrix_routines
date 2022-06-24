@@ -55,7 +55,6 @@ START_TEST(simple_mult) {
             mtx.matrix[i][j] = c++;
 
     matrix_t check = {0};
-    s21_create_matrix(m.rows, mtx.columns, &check);
     check.matrix[0][0] = 58;
     check.matrix[0][1] = 64;
     check.matrix[1][0] = 139;
