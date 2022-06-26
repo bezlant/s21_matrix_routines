@@ -1,5 +1,20 @@
 #include "test_s21_matrix.h"
 
+START_TEST(empty) {
+    matrix_t a = {0};
+    matrix_t b = {0};
+    ck_assert_int_eq(s21_calc_complements(&a, &b), INCORRECT_MATRIX);
+}
+END_TEST
+
+START_TEST(size_mismatch) {
+    matrix_t a = {0};
+    matrix_t b = {0};
+    s21_create_matrix(1, 2, &a);
+    ck_assert_int_eq(s21_calc_complements(&a, &b), CALC_ERROR);
+}
+END_TEST
+
 START_TEST(complements) {
     const int size = 3;
     matrix_t m = {0};
@@ -39,6 +54,8 @@ Suite *suite_s21_calc_complements(void) {
     TCase *tc = tcase_create("s21_calc_complements");
 
     tcase_add_test(tc, complements);
+    tcase_add_test(tc, empty);
+    tcase_add_test(tc, size_mismatch);
 
     suite_add_tcase(s, tc);
     return s;

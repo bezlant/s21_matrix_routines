@@ -15,7 +15,6 @@ START_TEST(mult_number_matrix) {
         }
     }
     matrix_t res = {0};
-    s21_create_matrix(rows, cols, &res);
     ck_assert_int_eq(s21_mult_number(&m, mult_number, &res), OK);
     ck_assert_int_eq(s21_eq_matrix(&check, &res), SUCCESS);
     s21_remove_matrix(&m);
