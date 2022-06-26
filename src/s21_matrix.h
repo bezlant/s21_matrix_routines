@@ -38,7 +38,6 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result);
 
 // helpers
 void adjoint(matrix_t *A, matrix_t *result);
-void adjoint_inverse(matrix_t *A, matrix_t *result);
 double det(double **m, int size);
 void get_cofactor(double **m, double **tmp, int skip_row, int skip_col,
                   int size);
