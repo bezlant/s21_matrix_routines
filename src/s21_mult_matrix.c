@@ -1,6 +1,8 @@
 #include "s21_matrix.h"
 
 int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
+    if (!is_correct(A) || !is_correct(B))
+        return INCORRECT_MATRIX;
     if ((A->columns != B->rows) || (A->rows != B->columns))
         return CALC_ERROR;
 

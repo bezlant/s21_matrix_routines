@@ -42,4 +42,6 @@ void adjoint_inverse(matrix_t *A, matrix_t *result);
 double det(double **m, int size);
 void get_cofactor(double **m, double **tmp, int skip_row, int skip_col,
                   int size);
+
+int is_correct(matrix_t *A);
 #endif  // SRC_S21_MATRIX_H_
