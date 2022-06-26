@@ -12,6 +12,7 @@ START_TEST(size_mismatch) {
     matrix_t b = {0};
     s21_create_matrix(1, 2, &a);
     ck_assert_int_eq(s21_calc_complements(&a, &b), CALC_ERROR);
+    s21_remove_matrix(&a);
 }
 END_TEST
 
