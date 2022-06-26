@@ -4,8 +4,9 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result) {
     if (A->rows != A->columns)
         return CALC_ERROR;
 
-    double d = s21_determinant(A);
-    if (fabs(d) < 1e-6)
+    double d = 0;
+    int code = s21_determinant(A, &d);
+    if (fabs(d) < 1e-6 || code)
         return CALC_ERROR;
 
     matrix_t adj = {0};

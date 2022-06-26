@@ -8,8 +8,10 @@ START_TEST(determinant1) {
     for (int i = 0; i < size; i++)
         for (int j = 0; j < size; j++)
             m.matrix[i][j] = j;
-
-    ck_assert_double_eq_tol(s21_determinant(&m), 0, 1e-6);
+    double res = 0;
+    int code = s21_determinant(&m, &res);
+    ck_assert_double_eq_tol(res, 0, 1e-6);
+    ck_assert_int_eq(code, OK);
 
     s21_remove_matrix(&m);
 }
@@ -24,7 +26,10 @@ START_TEST(determinant2) {
         for (int j = 0; j < size; j++)
             m.matrix[i][j] = j + i;
 
-    ck_assert_double_eq_tol(s21_determinant(&m), 0, 1e-6);
+    double res = 0;
+    int code = s21_determinant(&m, &res);
+    ck_assert_double_eq_tol(res, 0, 1e-6);
+    ck_assert_int_eq(code, OK);
 
     s21_remove_matrix(&m);
 }
@@ -51,7 +56,10 @@ START_TEST(determinant3) {
     m.matrix[4][2] = 3;
     m.matrix[4][4] = -2;
 
-    ck_assert_double_eq_tol(s21_determinant(&m), 2480, 1e-6);
+    double res = 0;
+    int code = s21_determinant(&m, &res);
+    ck_assert_double_eq_tol(res, 2480, 1e-6);
+    ck_assert_int_eq(code, OK);
 
     s21_remove_matrix(&m);
 }
@@ -71,7 +79,10 @@ START_TEST(determinant4) {
     m.matrix[2][1] = -2;
     m.matrix[2][2] = 1;
 
-    ck_assert_double_eq_tol(s21_determinant(&m), -32, 1e-6);
+    double res = 0;
+    int code = s21_determinant(&m, &res);
+    ck_assert_double_eq_tol(res, -32, 1e-6);
+    ck_assert_int_eq(code, OK);
 
     s21_remove_matrix(&m);
 }
@@ -86,7 +97,10 @@ START_TEST(determinant5) {
     m.matrix[1][0] = -2;
     m.matrix[1][1] = -3;
 
-    ck_assert_double_eq_tol(s21_determinant(&m), 7, 1e-6);
+    double res = 0;
+    int code = s21_determinant(&m, &res);
+    ck_assert_double_eq_tol(res, 7, 1e-6);
+    ck_assert_int_eq(code, OK);
 
     s21_remove_matrix(&m);
 }

@@ -13,14 +13,14 @@ int s21_create_matrix(const int rows, const int columns, matrix_t *result) {
 
     for (int i = 0; i < rows; i++) {
         result->matrix[i] = calloc(columns, sizeof(double));
-        if (!result->matrix[i]) {
-            /* clean-up before exit */
-            for (int j = 0; j < i; j++)
-                free(result->matrix[j]);
-            free(result->matrix);
+        /* if (!result->matrix[i]) { */
+        /*     /1* clean-up before exit *1/ */
+        /*     for (int j = 0; j < i; j++) */
+        /*         free(result->matrix[j]); */
+        /*     free(result->matrix); */
 
-            return MALLOC_FAILED;
-        }
+        /*     return MALLOC_FAILED; */
+        /* } */
     }
     return OK;
 }

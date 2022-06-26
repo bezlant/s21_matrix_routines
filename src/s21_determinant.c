@@ -1,15 +1,16 @@
 #include "s21_matrix.h"
 
-double s21_determinant(matrix_t *A) {
+int s21_determinant(matrix_t *A, double *result) {
     if (A->rows != A->columns)
         return CALC_ERROR;
 
-    int s21_calc_complements(matrix_t * A, matrix_t * result);
+    if (A->rows == 0) {
+        *result = A->matrix[0][0];
+        return OK;
+    }
 
-    if (A->rows == 0)
-        return A->matrix[0][0];
-
-    return det(A->matrix, A->rows);
+    *result = det(A->matrix, A->rows);
+    return OK;
 }
 
 double det(double **m, int size) {
@@ -32,7 +33,6 @@ double det(double **m, int size) {
     for (int i = 0; i < size; i++) {
         get_cofactor(m, tmp, 0, i, size);
         res += sign * m[0][i] * det(tmp, size - 1);
-
         sign = -sign;
     }
 
