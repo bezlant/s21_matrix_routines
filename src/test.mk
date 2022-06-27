@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS:=-Wall -Werror -Wextra -std=c11 -pedantic #-fanalyzer
+CFLAGS:=#-Wall -Werror -Wextra -std=c11 -pedantic #-fanalyzer
 
 ASAN=-g #-fsanitize=address
 
