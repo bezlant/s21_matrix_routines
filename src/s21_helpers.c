@@ -9,28 +9,18 @@ double det(double **m, int size) {
 
     if (size == 1)
         return m[0][0];
-
-    double **tmp = malloc(sizeof(double *) * size);
-    if (!tmp)
-        exit(MALLOC_FAILED);
-
-    for (int i = 0; i < size; i++) {
-        tmp[i] = malloc(sizeof(double) * size);
-        if (!tmp[i])
-            exit(MALLOC_FAILED);
-    }
+    matrix_t tmp = {0};
+    if (s21_create_matrix(size, size, &tmp))
+        return MALLOC_FAILED;
 
     int sign = 1;
     for (int i = 0; i < size; i++) {
-        get_cofactor(m, tmp, 0, i, size);
-        res += sign * m[0][i] * det(tmp, size - 1);
+        get_cofactor(m, tmp.matrix, 0, i, size);
+        res += sign * m[0][i] * det(tmp.matrix, size - 1);
         sign = -sign;
     }
 
-    for (int i = 0; i < size; i++)
-        free(tmp[i]);
-    free(tmp);
-
+    s21_remove_matrix(&tmp);
     return res;
 }
 
@@ -51,17 +41,25 @@ void get_cofactor(double **m, double **tmp, int skip_row, int skip_col,
 }
 
 void adjoint(matrix_t *A, matrix_t *result) {
+    if (A->rows == 1) {
+        result->matrix[0][0] = 1;
+        return;
+    }
+
     matrix_t tmp = {0};
 
     if (s21_create_matrix(A->rows, A->rows, &tmp))
         return;
-    int sign = 1;
+
     for (int i = 0; i < A->rows; i++) {
         for (int j = 0; j < A->columns; j++) {
             get_cofactor(A->matrix, tmp.matrix, i, j, A->rows);
+
+            int sign = ((i + j) % 2 == 0) ? 1 : -1;
+
             result->matrix[i][j] = sign * det(tmp.matrix, A->rows - 1);
-            sign = -sign;
         }
     }
+
     s21_remove_matrix(&tmp);
 }

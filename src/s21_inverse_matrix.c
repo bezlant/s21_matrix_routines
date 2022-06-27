@@ -12,31 +12,23 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result) {
 
     if (fabs(d) < 1e-6 || code)
         return CALC_ERROR;
-    if (A->rows == 1) {
-        if (!s21_create_matrix(A->rows, A->rows, result)) {
-            result->matrix[0][0] = 1.0 / A->matrix[0][0];
-            return OK;
-        } else {
-            return MALLOC_FAILED;
-        }
-    }
 
-    matrix_t complements = {0};
-
-    int err = s21_calc_complements(A, &complements);
-    if (err)
-        return err;
-
-    err = s21_transpose(&complements, result);
-    if (err)
+    matrix_t adj = {0};
+    if (s21_create_matrix(A->rows, A->rows, &adj))
         return MALLOC_FAILED;
 
-    int size = A->rows;
+    adjoint(A, &adj);
+    matrix_t transposed = {0};
 
-    for (int i = 0; i < size; i++)
-        for (int j = 0; j < size; j++)
-            result->matrix[i][j] = result->matrix[i][j] / d;
+    if (s21_transpose(&adj, &transposed) &&
+        s21_create_matrix(A->rows, A->rows, result))
+        return MALLOC_FAILED;
 
-    s21_remove_matrix(&complements);
+    for (int i = 0; i < A->rows; i++)
+        for (int j = 0; j < A->rows; j++)
+            result->matrix[i][j] = transposed.matrix[i][j] / d;
+
+    s21_remove_matrix(&transposed);
+    s21_remove_matrix(&adj);
     return OK;
 }
