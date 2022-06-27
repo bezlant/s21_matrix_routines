@@ -31,6 +31,7 @@ START_TEST(s21_inverse_2) {
 }
 
 END_TEST
+
 START_TEST(s21_inverse_1) {
     matrix_t A, C;
     s21_create_matrix(3, 3, &A);
@@ -62,12 +63,13 @@ START_TEST(s21_inverse_1) {
     s21_remove_matrix(&C);
 }
 END_TEST
+
 START_TEST(test_one_by_one) {
     matrix_t m = {0};
     matrix_t result = {0};
     int codec = s21_create_matrix(1, 1, &m);
     if (!codec) {
-        m.matrix[0][0] = 5;
+        m.matrix[0][0] = 1431.12312331;
         int code = s21_inverse_matrix(&m, &result);
         ck_assert_int_eq(result.matrix[0][0] == (1.0 / m.matrix[0][0]), 1);
         ck_assert_int_eq(code, OK);

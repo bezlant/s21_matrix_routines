@@ -14,10 +14,9 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result) {
         return CALC_ERROR;
 
     matrix_t adj = {0};
-    if (s21_create_matrix(A->rows, A->rows, &adj))
+    if (s21_calc_complements(A, &adj))
         return MALLOC_FAILED;
 
-    adjoint(A, &adj);
     matrix_t transposed = {0};
 
     if (s21_transpose(&adj, &transposed) ||
