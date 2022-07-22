@@ -30,8 +30,8 @@ Implementation of simple matrix processing routines
 ### Build
 
 ```
-$ git clone git.github.com:bezlant/s21_matrix_routins.git
-$ cd s21_matrix_routins/src
+$ git clone https://github.com/bezlant/s21_matrix_routines
+$ cd s21_matrix_routines/src
 $ make
 ```
 
