@@ -4,6 +4,7 @@ CFLAGS:=#-Wall -Werror -Wextra -std=c11 -pedantic -fanalyzer
 
 ASAN=-g #-fsanitize=address
 
+BUILDDIR=../build
 TARGET=s21_matrix.a
 
 INC:=$(shell find . -maxdepth 1 -name "*.h")
@@ -16,6 +17,8 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	ar -vrcs $(TARGET) $(OBJS)
 	ranlib $(TARGET)
+	mkdir -p $(BUILDDIR)
+	mv $(TARGET) $(BUILDDIR)
 
 $(OBJS): %.o:%.c $(SRC) $(INC)
 	$(CC) $(CFLAGS) -o $@ -c $< $(ASAN)
@@ -33,7 +36,7 @@ clean:
 	rm -rf $(OBJS)  
 
 fclean: clean
-	rm -rf $(TARGET)
+	rm -rf $(BUILDDIR)
 	$(MAKE) -f test.mk fclean
 
 
