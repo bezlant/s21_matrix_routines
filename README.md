@@ -1,4 +1,4 @@
-# Matrix Library
+# Matrix Routines
 
 ### Table of Contents
 * [Introduction](#introduction)
