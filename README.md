@@ -25,7 +25,7 @@ Implementation of simple matrix processing routines
 - Get better at working with memory in C
 - Improve Makefile
 - Implement tests for the library
-- Become familiar with other matrix libraries such as [GSL](https://www.gnu.org/software/gsl/doc/html/index.html)<br>(Have tried while testing, turned out to be quite complex :O)
+- Become familiar with other matrix libraries such as [GSL](https://www.gnu.org/software/gsl/doc/html/index.html)<br>(Have tried while testing, turned out to be quite complex)
 
 ### Build
 
